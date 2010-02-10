@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:view="com.breezi.view.*"
+	xmlns:control="com.breezi.control.*" 
+	xmlns:business="com.breezi.business.*"
+	layout="absolute" 
+	horizontalScrollPolicy="off" 
+	verticalScrollPolicy="off" 
+	creationComplete="creationCompleteHandler()">
+	
+	<!-- style sheet -->
+	<mx:Style source="assets/css/Main.css" />
+	
+	<!-- the FrontController, containing Commands specific to this application -->
+	<control:BreeziController id="controller"/>
+	
+	<mx:VDividedBox width="100%" height="100%" id="mainView">
+		<mx:HDividedBox width="100%" height="70%">
+			<view:propertiesView id="propertiesView"/>			
+			<view:workareaView id="workareaView"/>
+		</mx:HDividedBox>
+	</mx:VDividedBox>
+	
+	<mx:Script>
+		<![CDATA[
+			import com.breezi.events.BreeziEvent;
+			import com.breezi.model.BreeziModelLocator;
+			
+			private var model:BreeziModelLocator = BreeziModelLocator.getInstance();
+			
+			private function creationCompleteHandler():void
+			{
+				model.params = Application.application.parameters.boxData;
+				
+				model.mainView = mainView;
+				model.propView = propertiesView;
+				model.workView = workareaView;
+				
+				(new BreeziEvent(BreeziEvent.INITIALIZE)).dispatch();
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Application>

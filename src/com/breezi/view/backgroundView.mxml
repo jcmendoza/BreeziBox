@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
+	width="100%" 
+	height="100%"
+	label="Background &amp; Shadow" 
+	creationComplete="creationCompleteHandler()">
+	
+	<mx:Label x="10" y="11" text="Background Color:"/>
+	<mx:ColorPicker x="126" y="11" selectedColor="{IBox(model.boxData).backgroundColor}" change="{IBox(model.boxData).backgroundColor = event.target.selectedColor}"/>
+	
+	<mx:CheckBox x="156" y="9" label="Gradient?" selected="{IBox(model.boxData).useGradient}" change="{IBox(model.boxData).useGradient = event.target.selected}"/>
+	<mx:ColorPicker x="242" y="11" visible="{IBox(model.boxData).useGradient}" selectedColor="{IBox(model.boxData).gradientColor}" change="{IBox(model.boxData).gradientColor = event.target.selectedColor}"/>
+	
+	<mx:Label x="10" y="48" text="Background Alpha:"/>
+	<mx:HSlider x="128" y="41" allowTrackClick="true" minimum="0" maximum="1" snapInterval="0.01" enabled="true" liveDragging="true" value="{IBox(model.boxData).backgroundAlpha}" change="{IBox(model.boxData).backgroundAlpha = event.target.value}"/>
+	
+	<mx:CheckBox x="10" y="74" label="Shadow?" selected="{IBox(model.boxData).useShadow}" change="{IBox(model.boxData).useShadow = event.target.selected}"/>
+	<mx:Canvas x="10" y="104" visible="{IBox(model.boxData).useShadow}">
+		<mx:Label x="0" y="0" text="Direction:"/>
+		<mx:ComboBox x="66" y="0" width="120" dataProvider="{model.constants.DROPSHADOW_DIRECTIONS}" selectedItem="{IBox(model.boxData).shadowDirection}" change="{IBox(model.boxData).shadowDirection = event.target.selectedItem}"/>
+									
+		<mx:Label x="0" y="26" text="Color:"/>
+		<mx:ColorPicker x="47" y="26" selectedColor="{IBox(model.boxData).shadowColor}" change="{IBox(model.boxData).shadowColor = event.target.selectedColor}"/>
+									
+		<mx:Label x="0" y="59" text="Distance:"/>
+		<mx:HSlider x="72" y="52" id="shadowDistance" labelOffset="25" tickInterval="10" allowTrackClick="true" minimum="{0 - Math.floor(Math.min(IBox(model.boxData).width / 2, IBox(model.boxData).height / 2))}" maximum="{Math.floor(Math.min(IBox(model.boxData).width / 2, IBox(model.boxData).height / 2))}" labels="{[-1, 0, 1]}" snapInterval="1" enabled="true" liveDragging="true" value="{IBox(model.boxData).shadowDistance}" change="{IBox(model.boxData).shadowDistance = event.target.value}"/>
+	</mx:Canvas>
+	
+	<mx:Script>
+		<![CDATA[
+			import com.breezi.events.BreeziEvent;
+			import com.breezi.model.BreeziModelLocator;
+			import com.breezi.vo.interfaces.IBox;
+			
+			[Bindable]
+			private var model:BreeziModelLocator = BreeziModelLocator.getInstance();
+			
+			private function creationCompleteHandler():void
+			{
+				(new BreeziEvent(BreeziEvent.UPDATE_SHADOW_DISTANCE)).dispatch();
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Canvas>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" 
+	width="600" 
+	height="400" 
+	layout="absolute"
+	title="Output Details" 
+	fontWeight="bold"
+	showCloseButton="true" 
+	creationComplete="creationCompleteHandler()"
+	close="closeHandler()">
+	
+	<mx:TabNavigator width="100%" bottom="35" top="10" x="0">
+		<mx:Canvas label="Generated PNG Image" width="100%" height="100%" backgroundColor="#ffffff">
+			<mx:Image id="preview" downloadable="true" width="100%" height="100%" scaleContent="false" horizontalAlign="center" verticalAlign="middle"/>
+		</mx:Canvas>
+		
+		<mx:Canvas label="Base64 Output" width="100%" height="100%" backgroundColor="#3e3e3e">
+			<mx:TextArea id="previewB64" text="{IBox(model.boxData).base64}" wordWrap="true" height="100%" width="100%" fontFamily="Courier New" fontWeight="normal"/>
+		</mx:Canvas>
+	</mx:TabNavigator>
+	
+	<mx:Button label="Close" horizontalCenter="0" bottom="4" click="closeHandler()"/>
+	
+	<mx:Script>
+		<![CDATA[
+			import flash.utils.ByteArray;
+			
+			import com.breezi.model.BreeziModelLocator;
+			import com.breezi.vo.interfaces.IBox;
+			
+			import mx.managers.PopUpManager;
+			import mx.utils.Base64Decoder;
+			
+			[Bindable]
+			private var model:BreeziModelLocator = BreeziModelLocator.getInstance();
+			
+			public function creationCompleteHandler():void
+			{
+				PopUpManager.centerPopUp(this);
+				
+				if (model.boxData.base64.length > 0)
+				{
+					var b64d:Base64Decoder = new Base64Decoder();
+					b64d.decode(model.boxData.base64);
+					var ba:ByteArray = b64d.toByteArray();
+					
+					preview.load(ba);
+				}
+			}
+			
+			public function closeHandler():void
+			{
+				PopUpManager.removePopUp(this);
+			}
+		]]>
+	</mx:Script>
+	
+</mx:TitleWindow>

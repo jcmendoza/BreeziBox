@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
+	width="100%" 
+	height="100%" 
+	backgroundColor="#ffffff">
+	
+	<mx:Canvas id="main" 
+		backgroundColor="#ffffff"
+		backgroundAlpha="0"
+		horizontalCenter="0" 
+		verticalCenter="0" 
+		horizontalScrollPolicy="off" 
+		verticalScrollPolicy="off"
+		width="{IBox(model.boxData).width + ((IBox(model.boxData).shadowDirection == model.constants.ALIGN_RIGHT || IBox(model.boxData).shadowDirection == model.constants.ALIGN_LEFT) ? Math.abs(IBox(model.boxData).shadowDistance) : 0) + 2}" 
+		height="{IBox(model.boxData).height + Math.abs(IBox(model.boxData).shadowDistance) + 3}">
+		
+		<mx:Canvas id="box"
+			horizontalScrollPolicy="off" 
+			verticalScrollPolicy="off"
+			borderStyle="{model.constants.BORDER_SOLID}" 
+			clipContent="true"
+			backgroundColor="#ffffff" 
+			left="{(IBox(model.boxData).shadowDirection == model.constants.ALIGN_RIGHT) ? 0 : (IBox(model.boxData).shadowDirection == model.constants.ALIGN_CENTER) ? 1 : main.width - IBox(model.boxData).width}"
+			top="{(IBox(model.boxData).shadowDistance >= 0) ? 0 : Math.abs(IBox(model.boxData).shadowDistance) + 3}" 
+			width="{IBox(model.boxData).width}" 
+			height="{IBox(model.boxData).height}" 
+			alpha="{IBox(model.boxData).alpha}"
+			borderThickness="{IBox(model.boxData).borderThickness}" 
+			borderColor="{IBox(model.boxData).borderColor}"
+			cornerRadius="{(IBox(model.boxData).useCornerRadius) ? IBox(model.boxData).cornerRadiusDistance : 0}"
+			backgroundAlpha="{IBox(model.boxData).backgroundAlpha}" 
+			dropShadowEnabled="{IBox(model.boxData).useShadow}" 
+			dropShadowColor="{IBox(model.boxData).shadowColor}" 
+			shadowDirection="{IBox(model.boxData).shadowDirection}" 
+			shadowDistance="{IBox(model.boxData).shadowDistance}" 
+			borderSides="{(IBox(model.boxData).isTab) ? 'left,top,right' : 'left,top,right,bottom'}">
+			
+			<mx:VBox width="100%" height="100%" verticalAlign="middle" horizontalScrollPolicy="off" verticalScrollPolicy="off" clipContent="true">
+				<mx:Text id="textLabel1" 
+					text="{IBox(model.boxData).text}" 
+					fontFamily="{IBox(model.boxData).fontFamily}" 
+					fontSize="{IBox(model.boxData).fontSize}" 
+					color="{IBox(model.boxData).fontColor}" 
+					fontWeight="{(IBox(model.boxData).fontBold) ? 'bold' : 'normal'}" 
+					fontStyle="{(IBox(model.boxData).fontItalic) ? 'italic' : 'normal'}" 
+					textDecoration="{(IBox(model.boxData).fontUnderline) ? 'underline' : 'none'}" 
+					textAlign="{IBox(model.boxData).fontAlign}" 
+					width="{IBox(model.boxData).width - IBox(model.boxData).borderThickness}"/>
+			</mx:VBox>
+			
+			<mx:Image id="buttonImage" 
+				maintainAspectRatio="{IBox(model.boxData).imageMaintainAspectRatio}" 
+				width="{IBox(model.boxData).imageWidth}" 
+				height="{IBox(model.boxData).imageHeight}" 
+				visible="{IBox(model.boxData).useImage}"/>
+		</mx:Canvas>
+	</mx:Canvas>
+	
+	<mx:Script>
+		<![CDATA[
+			import com.breezi.model.BreeziModelLocator;
+			import com.breezi.vo.interfaces.IBox;
+			
+			[Bindable]
+			private var model:BreeziModelLocator = BreeziModelLocator.getInstance();
+		]]>
+	</mx:Script>
+	
+</mx:Canvas>

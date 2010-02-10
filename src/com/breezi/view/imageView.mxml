@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+	width="100%" 
+	height="100%" 
+	label="Image">
+	
+	<mx:CheckBox x="10" y="10" label="add Image?" selected="{IBox(model.boxData).useImage}" change="{IBox(model.boxData).useImage = event.target.selected}"/>
+	
+	<mx:Canvas y="40" left="10" right="10" visible="{IBox(model.boxData).useImage}">
+		<mx:TextInput y="30" width="100%" id="imagePath" editable="false" text=""/>
+		<mx:Button x="0" y="0" label="Upload Image" click="uploadImage()"/>
+		
+		<mx:Label x="0" y="61" text="Horizontal Position:"/>
+		<mx:ComboBox x="122" y="58" width="113" dataProvider="{model.constants.HORIZONTAL_ALIGNMENTS}" selectedItem="{IBox(model.boxData).imageHorizontalAlign}" change="{IBox(model.boxData).imageHorizontalAlign = event.target.selectedItem}"/>
+		
+		<mx:VBox x="0" y="87" width="100%">
+			<mx:Canvas width="100%" height="{(IBox(model.boxData).imageHorizontalAlign == 'left' || IBox(model.boxData).imageHorizontalAlign == 'right') ? 30 : 0}">
+				<mx:Label x="0" y="0" text="Padding:"/>
+				<mx:NumericStepper x="63" y="0" minimum="0" maximum="{IBox(model.boxData).width - IBox(model.boxData).imageWidth}" stepSize="1" value="{IBox(model.boxData).imageHorizontalPadding}" change="{IBox(model.boxData).imageHorizontalPadding = event.target.value}"/>
+			</mx:Canvas>
+			
+			<mx:Canvas width="100%">
+				<mx:Label x="0" y="3" text="Vertical Position:"/>
+				<mx:ComboBox x="122" y="0" width="113" dataProvider="{model.constants.VERTICAL_ALIGNMENTS}" selectedItem="{IBox(model.boxData).imageVerticalAlign}" change="{IBox(model.boxData).imageVerticalAlign = event.target.selectedItem}"/>
+				
+				<mx:VBox x="0" y="29" height="100%" width="100%">
+					<mx:Canvas width="100%" height="{(IBox(model.boxData).imageVerticalAlign == 'top' || IBox(model.boxData).imageVerticalAlign == 'bottom') ? 30 : 0}">
+						<mx:Label x="0" y="0" text="Padding:"/>
+						<mx:NumericStepper x="63" y="0" minimum="0" maximum="{IBox(model.boxData).height - IBox(model.boxData).imageHeight}" stepSize="1" value="{IBox(model.boxData).imageVerticalPadding}" change="{IBox(model.boxData).imageVerticalPadding = event.target.value}"/>
+					</mx:Canvas>
+					
+					<mx:Canvas width="100%">
+						<mx:Label x="0" y="4" text="Width:"/>
+						<mx:NumericStepper x="50" y="1" minimum="1" maximum="{IBox(model.boxData).width}" stepSize="1" value="{IBox(model.boxData).imageWidth}" change="{IBox(model.boxData).imageWidth = event.target.value}"/>
+						
+						<mx:Label x="122" y="3" text="Height:"/>
+						<mx:NumericStepper x="176" y="0" minimum="1" maximum="{IBox(model.boxData).height}" stepSize="1" value="{IBox(model.boxData).imageHeight}" change="{IBox(model.boxData).imageHeight = event.target.value}"/>
+						
+						<mx:CheckBox x="0" y="39" label="Maintain Aspect Ratio?" selected="{IBox(model.boxData).imageMaintainAspectRatio}" change="{IBox(model.boxData).imageMaintainAspectRatio = event.target.selected}"/>
+					</mx:Canvas>
+				</mx:VBox>
+			</mx:Canvas>
+		</mx:VBox>
+	</mx:Canvas>
+	
+	<mx:Script>
+		<![CDATA[
+			import com.breezi.model.BreeziModelLocator;
+			import com.breezi.vo.interfaces.IBox;
+			
+			[Bindable]
+			private var model:BreeziModelLocator = BreeziModelLocator.getInstance();
+			
+			private function uploadImage():void
+			{
+				var arr:Array = [];
+				arr.push(new FileFilter("Images (*.jpg, *.jpeg, *.gif, *.png)", "*.jpg;*.jpeg;*.gif;*.png"));
+				
+				model.fileRef.browse(arr);
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Canvas>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:view="com.breezi.view.*"
+	width="300" 
+	height="100%">
+	
+	<mx:Accordion width="100%" bottom="75" top="0">
+		<view:borderView id="borderComponent"/>
+		<view:backgroundView id="backgroundComponent"/>
+		<view:textView id="textComponent"/>
+		<view:imageView id="imageComponent"/>
+	</mx:Accordion>
+	
+	<mx:Button label="Save as PNG" width="120" bottom="35" click="saveImage()" horizontalCenter="0"/>
+	
+	<mx:CheckBox label="Show Details after Save" id="showDetails" horizontalCenter="0" bottom="5"/>
+	
+	<mx:Script>
+		<![CDATA[
+			import com.breezi.events.BreeziEvent;
+			
+			private function saveImage():void
+			{
+				(new BreeziEvent(BreeziEvent.SAVE_IMAGE)).dispatch();
+			}
+		]]>
+	</mx:Script>
+
+</mx:Canvas>
