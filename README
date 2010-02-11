@@ -1,0 +1,10 @@
+BreeziBox
+
+Flex Component to create button or tab boxes quickly and use them in Breezi.
+
+Flex Project Source Code
+Eclipse 3.4 Ganymede using the Flex sdk 3.5
+Requires Flash Player 10 for saving images directly from the player
+
+Juan Carlos Mendoza <jc@freshout.us> <jcml72@gmail.com>
+10/Feb/10 - Initial Commit
